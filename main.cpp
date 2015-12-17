@@ -3,42 +3,47 @@
 #include <iostream>
 #include <string>
 #include "Sequence.h"
+#include "Blosum.h"
 
 using namespace std;
 
-//TODO:Score matrix
+Sequence* query;
+Database* db;
+unsigned char* buffer;
+Blosum* blosum;
 int gapOpenPenalty;
 int gapExtensionPenalty;
-//Sequence query;
 
 
 int main(int argc, char *argv[]) 
 {
-	/*if((argc < 3) || (argc > 6))
+	if((argc < 5) || (argc > 8))
 	{
 		cout << "Erreur, veuillez vérifier les paramètres." << endl;
-		return -1;
+		return EXIT_FAILURE;
 	}
 	else
-	{*/
-		//query = Sequence(argv[1]); //juste l'idée générale, à modifier
-			const char* indexName = "/home/student/Documents/algo/uniprot_sprot.fasta.pin";
-			const char* seqName = "/home/student/Documents/algo/uniprot_sprot.fasta.psq";
+	{
+			
 			const char* headerName = "/home/student/Documents/algo/uniprot_sprot.fasta.phr";
 
-			Database *db = new Database(indexName, seqName);
+			query = new Sequence(argv[1]); 
+			cout << query->getDescription() << endl;
+			cout << query->getChain() << endl;
+
+			db = new Database(argv[2], argv[3]);
 			cout << db->getTitle() << endl;
 			cout << db->getResiduesSize() << endl;
 			cout << db->getHeaderOffsets()[2] << endl;
 			cout << db->getSequences()[6] << endl;
 			
-			ifstream file(headerName, ios::in);
+			ifstream file(argv[4], ios::in);
 			if(file)
 			{
 				file.seekg(0, file.end);
 				int length = file.tellg();
 				file.seekg(0, file.beg);
-				unsigned char* buffer = new unsigned char[length];
+				buffer = new unsigned char[length];
 				file.read((char*)buffer, length);
 
 				Sequence *seq = new Sequence(buffer, db, 2);
@@ -46,28 +51,35 @@ int main(int argc, char *argv[])
 				cout << seq->getId() << endl;
 				cout << seq->getIdInfo() << endl;
 			}
-			const char* fasta = "/home/student/Documents/algo/P00533.fasta";
-			Sequence* query = new Sequence(fasta);
-			cout << query->getDescription() << endl;
-			cout << query->getChain() << endl;
+			if(argc > 5)
+				blosum = new Blosum(argv[5]);
+			else
+				blosum = new Blosum("BLOSUM62");
 
-		//if(argv[3] != NULL)
-			//matrix = argv[3];
-		//else
-			//matrix = blosum62;
-		/*if(argv[4] != NULL)
-			gapOpenPenalty = atoi(argv[4]);
-		else
-			gapOpenPenalty = 11;
-		if(argv[5] != NULL)
-			gapExtensionPenalty = atoi(argv[5]);
-		else
-			gapExtensionPenalty = 1;*/
+			cout << blosum->getResidues() << endl;
+			cout << blosum->Matrix[0][0] << endl;
+			for(int j=0;j<24;j++)
+			{
+				for(int i=0;i<24;i++)
+					cout << blosum->Matrix[i][j] << " ";
+				cout << endl; 
+			}
+			
+		
+			if(argc > 6)
+				gapOpenPenalty = atoi(argv[6]);
+			else
+				gapOpenPenalty = 11;
+			cout << gapOpenPenalty << endl;
+			if(argc > 7)
+				gapExtensionPenalty = atoi(argv[7]);
+			else
+				gapExtensionPenalty = 1;
+			cout << gapExtensionPenalty << endl;
 
 		
 
 		//TODO: algorithme
-
-		return 0; 
-	//}
+	}
+	return EXIT_SUCCESS; 
 }
