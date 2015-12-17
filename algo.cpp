@@ -5,6 +5,32 @@
 
 using namespace std;
 
+void init_blosum(int Matrix[][24], string &residues, const char* fileName)
+{
+	ifstream file(fileName, ios::in);
+	if(file)
+	{
+		string line;
+		char a;
+		int b;
+		while((getline(file,line)) && (line[0] == '#')){}
+		for(int j=0; j< 24; j++)
+		{
+			file >> a;
+			residues += a;
+			for(int i=0; i<24;i++)
+			{
+				file >> b;
+				Matrix[i][j] = b;
+			}
+		}
+				
+			
+	}
+
+}
+
+
 double blossum_score(char a,char b)
 {
 	return 0;
@@ -26,6 +52,10 @@ double find_max(double array[], int length)
 
 int main()
 {
+	string residues = "";
+	int BlosumMatrix[24][24];
+	init_blosum(Matrix, residues,"/home/student/Bureau/BLOSUM62");
+
 	double delta;
 	string seq_a = "aaaaaaaa";
 	string seq_b = "ababaab";
