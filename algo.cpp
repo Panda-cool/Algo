@@ -107,8 +107,6 @@ int main()
 	}
 	
 	double M_max = 0;
-	int i_max = 0;
-	int j_max = 0;
 	for(int i=1; i<=length_a; i++)
 	{
 		for(int j=1; j<=length_b; j++)
@@ -116,8 +114,6 @@ int main()
 			if(M[i][j] > M_max)
 			{
 				M_max = M[i][j];
-				i_max = i;
-				j_max = j;
 			}
 		}
 	}
