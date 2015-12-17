@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <vector>
 #include <math.h>
-#include "Sequence.h"
 
 class Database 
 {
@@ -43,5 +42,4 @@ public:
 	void setHeaderOffsets(std::vector<unsigned long> header_offsets);
 	void setSeqOffsets(std::vector<unsigned long> seq_offsets);
 	void setSequences(std::vector<std::string> sequences);
-	Sequence seekSequence();
 };

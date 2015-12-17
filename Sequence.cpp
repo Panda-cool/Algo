@@ -2,9 +2,9 @@
 
 using namespace std;
 
-string Sequence::getName() const
+string Sequence::getChain() const
 {
-	return name;
+	return chain;
 }
 
 int Sequence::getLength() const
@@ -26,9 +26,9 @@ string Sequence::getDescription() const
 {
 	return description;
 }	
-void Sequence::setName(string new_name)
+void Sequence::setChain(string new_chain)
 {	
-	name = new_name;
+	chain = new_chain;
 }
 
 void Sequence::setLength(int new_length)
@@ -145,15 +145,42 @@ int Sequence::getHeader(unsigned char* buffer, int pos, Sequence* seq)
 		return -1;		
 }
 
-Sequence::Sequence(unsigned char* buffer, int pos) 
+void Sequence::readFasta(const char* fileName, Sequence* seq)
+{
+	ifstream file(fileName, ios::in);
+	if(file)
+	{
+		string line;
+		getline(file, line);
+		seq->setDescription(line);
+		string chain = "";
+		while(getline(file, line))
+			chain += line;
+		seq->setChain(chain);
+		int length = chain.size();
+		seq->setLength(length);	
+	}
+
+}
+
+
+Sequence::Sequence(unsigned char* buffer, Database* db, int pos) 
 {
 	this->setId(-1);
 	this->setDescription("");
 	this->setIdInfo("");	
-	if(this->getHeader(buffer, pos, this) == -1)
-		cout << "Error. Can't init sequence" << endl;		
+	if(this->getHeader(buffer, db->getHeaderOffsets()[pos], this) == -1)
+		cout << "Error. Can't init sequence" << endl;
+	this->setChain(db->getSequences()[pos]);
+	this->setLength(chain.size());		
 }
 
+Sequence::Sequence(const char* fileName)
+{
+	this->readFasta(fileName, this);
+	this->setId(-1);
+	this->setIdInfo("");
+}
 
 int Sequence::compareTo(Sequence seq)
 {

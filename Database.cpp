@@ -222,8 +222,3 @@ Database::Database(const char* indexName, const char* seqName)
 }
 
 
-
-Sequence Database::seekSequence()
-{
-}
-

@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
-#include "Database.h"
-//#include "Sequence.h"
+#include "Sequence.h"
 
 using namespace std;
 
@@ -42,11 +41,16 @@ int main(int argc, char *argv[])
 				unsigned char* buffer = new unsigned char[length];
 				file.read((char*)buffer, length);
 
-				Sequence *seq = new Sequence(buffer, db->getHeaderOffsets()[2]);
+				Sequence *seq = new Sequence(buffer, db, 2);
 				cout << seq->getDescription() << endl;
 				cout << seq->getId() << endl;
 				cout << seq->getIdInfo() << endl;
 			}
+			const char* fasta = "/home/student/Documents/algo/P00533.fasta";
+			Sequence* query = new Sequence(fasta);
+			cout << query->getDescription() << endl;
+			cout << query->getChain() << endl;
+
 		//if(argv[3] != NULL)
 			//matrix = argv[3];
 		//else

@@ -1,8 +1,8 @@
 all: Database.o Sequence.o main.cpp
 	g++ Database.o Sequence.o main.cpp -o main
-Database.o: Sequence.o Database.cpp
-	g++ Sequence.o -c Database.cpp
-Sequence.o: Sequence.cpp
-	g++ -c Sequence.cpp
+Sequence.o: Database.o Sequence.cpp
+	g++ Database.o -c Sequence.cpp
+Database.o: Database.cpp
+	g++ -c Database.cpp
 clean:
 	rm *.o
