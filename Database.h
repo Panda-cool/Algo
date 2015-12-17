@@ -17,12 +17,16 @@ private:
 	unsigned long longestSeq;	
 	std::vector<unsigned long> headerOffsets;
 	std::vector<unsigned long> seqOffsets;
-	void init(unsigned char* buffer, Database* db);
+	std::vector<std::string> sequences;
+
+	void initIndex(unsigned char* buffer, Database* db);
+	void initSeq(unsigned char* buffer, int length, Database* db);
 	unsigned long decode32(unsigned char* buf) const;
 	unsigned long decode64(unsigned char* buf) const;
+	char getResidue(unsigned int value) const;
 
 public:
-	Database(const char* fileName);
+	Database(const char* indexName, const char* seqName);
 	std::string getFileName() const;
 	std::string getTitle() const;
 	unsigned long getResiduesSize() const;
@@ -30,6 +34,7 @@ public:
 	unsigned long getLongestSeq() const;
 	std::vector<unsigned long> getHeaderOffsets() const;
 	std::vector<unsigned long> getSeqOffsets() const;
+	std::vector<std::string> getSequences() const;
 	void setFileName(std::string name);
 	void setTitle(std::string title);
 	void setResiduesSize(unsigned long residue_nb);
@@ -37,5 +42,6 @@ public:
 	void setLongestSeq(unsigned long max_seq);
 	void setHeaderOffsets(std::vector<unsigned long> header_offsets);
 	void setSeqOffsets(std::vector<unsigned long> seq_offsets);
+	void setSequences(std::vector<std::string> sequences);
 	Sequence seekSequence();
 };

@@ -49,14 +49,19 @@ vector<unsigned long> Database::getSeqOffsets() const
 	return seqOffsets;
 }
 
+vector<string> Database::getSequences() const
+{
+	return sequences;
+}
+
 void Database::setFileName(string name)
 {
 	fileName = name;
 }
 
-void Database::setTitle(string ptitle)
+void Database::setTitle(string new_title)
 {
-	title = ptitle;
+	title = new_title;
 }
 
 void Database::setResiduesSize(unsigned long residue_nb)
@@ -84,8 +89,12 @@ void Database::setSeqOffsets(vector<unsigned long> seq_offsets)
 	seqOffsets = seq_offsets;
 }
 
+void Database::setSequences(vector<string> new_sequences)
+{
+	sequences = new_sequences;
+}
 
-void Database::init(unsigned char* buffer, Database* db)
+void Database::initIndex(unsigned char* buffer, Database* db)
 {
 	unsigned char data_buf[4];
 	unsigned char big_data_buf[8];
@@ -155,9 +164,39 @@ void Database::init(unsigned char* buffer, Database* db)
 	}	
 }
 
-Database::Database(const char* fileName)
+void Database::initSeq(unsigned char* buffer, int length, Database* db)
 {
-	ifstream file(fileName, ios::binary);
+	vector<string> sequences;
+	string string_buf = "";
+
+	for(int j=0;j<length;j++)
+	{
+		if((unsigned int)buffer[j] != 0)
+			string_buf += getResidue((unsigned int)buffer[j]);
+		else
+		{
+			sequences.push_back(string_buf);
+			string_buf = "";
+		}
+	}
+	db->setSequences(sequences);
+}
+
+char Database::getResidue(unsigned int value) const
+{
+	if(value > 27)
+		return '-';
+	else
+	{
+		char residues[] = "-ABCDEFGHIKLMNPQRSTVWXYZU*OJ";
+		return residues[value];
+	}
+}
+
+
+Database::Database(const char* indexName, const char* seqName)
+{
+	ifstream file(indexName, ios::binary);
 	if(file)
 	{
 		file.seekg(0, file.end);
@@ -166,8 +205,20 @@ Database::Database(const char* fileName)
 		unsigned char* buffer = new unsigned char[length];
 		file.read((char*)buffer, length);
 
-		this->init(buffer, this);
+		this->initIndex(buffer, this);
 	}
+	ifstream file2(seqName, ios::binary);
+	if(file2)
+	{
+		file2.seekg(0, file2.end);
+		int length2 = file2.tellg();
+		file2.seekg(0, file2.beg);
+		unsigned char* buffer2 = new unsigned char[length2];
+		file2.read((char*)buffer2, length2);
+
+		this->initSeq(buffer2, length2, this);
+	}
+
 }
 
 

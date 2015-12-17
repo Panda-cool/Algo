@@ -23,13 +23,30 @@ int main(int argc, char *argv[])
 	else
 	{*/
 		//query = Sequence(argv[1]); //juste l'idée générale, à modifier
-			const char* fileName = "/home/student/Documents/algo/uniprot_sprot.fasta.pin";
+			const char* indexName = "/home/student/Documents/algo/uniprot_sprot.fasta.pin";
+			const char* seqName = "/home/student/Documents/algo/uniprot_sprot.fasta.psq";
+			const char* headerName = "/home/student/Documents/algo/uniprot_sprot.fasta.phr";
 
-			Database *db = new Database(fileName);
+			Database *db = new Database(indexName, seqName);
 			cout << db->getTitle() << endl;
 			cout << db->getResiduesSize() << endl;
 			cout << db->getHeaderOffsets()[2] << endl;
+			cout << db->getSequences()[6] << endl;
+			
+			ifstream file(headerName, ios::in);
+			if(file)
+			{
+				file.seekg(0, file.end);
+				int length = file.tellg();
+				file.seekg(0, file.beg);
+				unsigned char* buffer = new unsigned char[length];
+				file.read((char*)buffer, length);
 
+				Sequence *seq = new Sequence(buffer, db->getHeaderOffsets()[2]);
+				cout << seq->getDescription() << endl;
+				cout << seq->getId() << endl;
+				cout << seq->getIdInfo() << endl;
+			}
 		//if(argv[3] != NULL)
 			//matrix = argv[3];
 		//else

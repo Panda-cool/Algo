@@ -45,7 +45,7 @@ char get_residue(unsigned int value)
 	else
 	{
 		char residues[] = "-ABCDEFGHIKLMNPQRSTVWXYZU*OJ";
-	return residues[value];
+		return residues[value];
 	}
 }
 
@@ -127,6 +127,24 @@ int get_header(unsigned char* buffer, int pos)
 	else
 		return -1;	
 		
+}
+
+vector<string> get_seq(unsigned char* buffer)
+{
+	vector<string> sequences;
+	string string_buf = "";
+
+	for(int j=0;j<length;j++)
+	{
+		if((unsigned int)buffer[j] != 0)
+			string_buf += get_residue((unsigned int)buffer[j]);
+		else
+		{
+			sequences.push_back(string_buf);
+			string_buf = "";
+		}
+	}
+	return sequences;
 }
 
 vector<unsigned long> get_pin(unsigned char* buffer)
@@ -215,25 +233,13 @@ int main()
 	}
 	if(file2)
 	{
-		vector<string> sequences;
-		string string_buf = "";
 		file2.seekg(0, file2.end);
 		length = file2.tellg();
 		file2.seekg(0, file2.beg);
 		unsigned char* buffer = new unsigned char[length];
 		file2.read((char*)buffer, length);
-		
-		for(int j=0;j<length;j++)
-		{
-			if((unsigned int)buffer[j] != 0)
-				string_buf += get_residue((unsigned int)buffer[j]);
-			else
-			{
-				sequences.push_back(string_buf);
-				string_buf = "";
-			}
-		}
-		
+		vector<string> sequences = get_seq(buffer);
+			
 		cout << sequences[5] << endl;
 		cout << sequences[258] << endl;
 
