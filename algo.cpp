@@ -31,9 +31,27 @@ void init_blosum(int Matrix[][24], string &residues, const char* fileName)
 }
 
 
-double blossum_score(char a,char b)
+double blosum_score(char a,char b, string letters, matrix[][])
 {
-	return 0;
+	double result;
+	int line;
+	int column;
+	for (int i=0; i<=23; i++)
+	{
+		if (a==letters[i])
+		{
+			line == i;
+		}
+	}
+	for (int j=0; j<=23; j++)
+	{
+		if (b==letters[j])
+		{
+			column == j;
+		}
+	}
+	result = matrix[line][column];
+	return result;
 }
 	
 	
