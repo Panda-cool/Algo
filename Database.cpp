@@ -1,51 +1,50 @@
 #include "Database.h"
-#include <math.h>
 
 using namespace std;
 
 
-unsigned long decode32(unsigned char* buf)
+unsigned long Database::decode32(unsigned char* buf) const
 {	
 	return pow(16,6)*(unsigned long)buf[0] + pow(16,4)*(unsigned long)buf[1] + pow(16,2)*(unsigned long)buf[2] + (unsigned long)buf[3];
 }
 
-unsigned long decode64(unsigned char* buf)
+unsigned long Database::decode64(unsigned char* buf) const
 {
 	return (unsigned long)buf[0] + pow(16,2)*(unsigned long)buf[1] + pow(16,4)*(unsigned long)buf[2] + pow(16,6)*(unsigned long)buf[3] + pow(16,8)*(unsigned long)buf[4] + pow(16,10)*(unsigned long)buf[5] + pow(16,12)*(unsigned long)buf[6] + pow(16,14)*(unsigned long)buf[7];
 }
 
 
-string Database::getFileName()
+string Database::getFileName() const
 {
 	return fileName;
 }
 
-string Database::getTitle()
+string Database::getTitle() const
 {
 	return title;
 }
 
-unsigned long Database::getResiduesSize()
+unsigned long Database::getResiduesSize() const
 {
 	return residuesSize;
 }
 
-unsigned long Database::getSequenceSize()
+unsigned long Database::getSequenceSize() const
 {
 	return sequenceSize;
 }
 
-unsigned long Database::getLongestSeq()
+unsigned long Database::getLongestSeq() const
 {
 	return longestSeq;
 }
 
-vector<unsigned long> Database::getHeaderOffsets()
+vector<unsigned long> Database::getHeaderOffsets() const
 {
 	return headerOffsets;
 }
 
-vector<unsigned long> Database::getSeqOffsets()
+vector<unsigned long> Database::getSeqOffsets() const
 {
 	return seqOffsets;
 }

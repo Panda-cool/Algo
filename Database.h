@@ -4,36 +4,38 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <vector>
+#include <math.h>
 #include "Sequence.h"
-
-using namespace std;
 
 class Database 
 {
 private:
-	string fileName;
-	string title;
+	std::string fileName;
+	std::string title;
 	unsigned long residuesSize;
 	unsigned long sequenceSize;
 	unsigned long longestSeq;	
-	vector<unsigned long> headerOffsets;
-	vector<unsigned long> seqOffsets;
+	std::vector<unsigned long> headerOffsets;
+	std::vector<unsigned long> seqOffsets;
+	void init(unsigned char* buffer, Database* db);
+	unsigned long decode32(unsigned char* buf) const;
+	unsigned long decode64(unsigned char* buf) const;
+
 public:
 	Database(const char* fileName);
-	string getFileName();
-	string getTitle();
-	unsigned long getResiduesSize();
-	unsigned long getSequenceSize();
-	unsigned long getLongestSeq();
-	vector<unsigned long> getHeaderOffsets();
-	vector<unsigned long> getSeqOffsets();
-	void setFileName(string name);
-	void setTitle(string title);
+	std::string getFileName() const;
+	std::string getTitle() const;
+	unsigned long getResiduesSize() const;
+	unsigned long getSequenceSize() const;
+	unsigned long getLongestSeq() const;
+	std::vector<unsigned long> getHeaderOffsets() const;
+	std::vector<unsigned long> getSeqOffsets() const;
+	void setFileName(std::string name);
+	void setTitle(std::string title);
 	void setResiduesSize(unsigned long residue_nb);
 	void setSequenceSize(unsigned long seq_nb);
 	void setLongestSeq(unsigned long max_seq);
-	void setHeaderOffsets(vector<unsigned long> header_offsets);
-	void setSeqOffsets(vector<unsigned long> seq_offsets);
-	void init(unsigned char* buffer, Database* db);
+	void setHeaderOffsets(std::vector<unsigned long> header_offsets);
+	void setSeqOffsets(std::vector<unsigned long> seq_offsets);
 	Sequence seekSequence();
 };

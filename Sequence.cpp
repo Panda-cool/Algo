@@ -5,21 +5,21 @@ using namespace std;
 Sequence::Sequence(string name, int lenght, string description) 
 {
 	name = name;
-	lenght = lenght;
+	lenght = length;
 	description = description;	
 }
 
-string Sequence::getName()
+string Sequence::getName() const
 {
 	return name;
 }
 
-int Sequence::getLenght()
+int Sequence::getLength() const
 {
-	return lenght;
+	return length;
 }
 
-string Sequence::getDescription()
+string Sequence::getDescription() const
 {
 	return description;
 }	
@@ -28,14 +28,14 @@ void Sequence::setName(string name)
 	name = name;
 }
 
-void Sequence::SetLenght(int lenght)
+void Sequence::setLength(int length)
 {
-	lenght=lenght
+	length=length;
 }
 
-void Sequence::SetDescription(string description)
+void Sequence::setDescription(string description)
 {
-	description=description
+	description=description;
 }
 int Sequence::compareTo(Sequence seq)
 {
