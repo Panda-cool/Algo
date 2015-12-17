@@ -92,7 +92,7 @@ int main()
 	{
 		for(int j=1; j<=length_b; j++)
 		{
-			options[0] = M[i-1][j-1] + blossum_score(seq_a[i-1], seq_b[j-1], residues, BlosumMatrix);
+			options[0] = M[i-1][j-1] + blosum_score(seq_a[i-1], seq_b[j-1], residues, BlosumMatrix);
 			options[1] = M[i-1][j] - delta;
 			options[2] = M[i][j-1] - delta;
 			options[3] = 0;
