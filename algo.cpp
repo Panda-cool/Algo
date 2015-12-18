@@ -36,19 +36,12 @@ double blosum_score(char a,char b, string letters, matrix[][])
 	double result;
 	int line;
 	int column;
-	for (int i=0; i<=23; i++)
+	for (int i=0; i<24; i++)
 	{
 		if (a==letters[i])
-		{
 			line == i;
-		}
-	}
-	for (int j=0; j<=23; j++)
-	{
-		if (b==letters[j])
-		{
-			column == j;
-		}
+		if (b==letters[i])
+			column == i;
 	}
 	result = matrix[line][column];
 	return result;
@@ -58,7 +51,6 @@ double blosum_score(char a,char b, string letters, matrix[][])
 double find_max(double array[], int length)
 {
 	double max = array[0];
-	
 	for(int i=1; i<length; i++)
 	{
 		if(array[i] > max)
