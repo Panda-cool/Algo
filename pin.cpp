@@ -253,9 +253,9 @@ int main()
 		file3.read((char*)buffer, length);
 		
 		if(get_header(buffer,(int)header_offsets[0] ) >= 0)
-			cout << "coooooool" << endl;
+			cout << "ok" << endl;
 		else
-			cout << "fuuuuuuuck" << endl;
+			cout << "not ok" << endl;
 
 	}
 
